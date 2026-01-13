@@ -26,17 +26,19 @@ export const Dashboard: React.FC = () => {
             color: ['#ffeebb', '#faedcd', '#fefae0', '#e5e7eb', '#d1d5db', '#e85d04'][index % 6]
         }));
 
-        const debtsBalance = debts.reduce((acc, d) => {
-             if (d.isClosed) return acc;
-             return acc + (d.amount < 0 ? d.amount + d.paid : d.amount - d.paid);
-        }, 0);
-        
-        // I owe (negative debts)
-        const iOwe = Math.abs(debts.filter(d => d.amount < 0 && !d.isClosed).reduce((acc, d) => acc + (d.amount + d.paid), 0));
+        const amountUserOwesToOthers = debts
+            .filter(d => d.amount > 0 && !d.isClosed)
+            .reduce((acc, d) => acc + (d.amount - d.paid), 0);
+
+        const amountOwedToUser = debts
+            .filter(d => d.amount < 0 && !d.isClosed)
+            .reduce((acc, d) => acc + Math.abs(d.amount + d.paid), 0);
+
+        const debtsBalance = amountOwedToUser - amountUserOwesToOthers;
 
         const totalAllocated = budget.reduce((acc, b) => acc + b.allocated, 0);
 
-        return { income, expenses, totalBalance, pieData, debtsBalance, iOwe, totalAllocated };
+        return { income, expenses, totalBalance, pieData, debtsBalance, amountUserOwesToOthers, amountOwedToUser, totalAllocated };
     }, [transactions, debts, budget]);
 
     const recentTransactions = transactions.slice(0, 4);
@@ -243,7 +245,7 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <div className="text-2xl md:text-3xl font-bold mt-2">₽{stats.iOwe.toLocaleString()}</div>
+                            <div className="text-2xl md:text-3xl font-bold mt-2">₽{stats.amountUserOwesToOthers.toLocaleString()}</div>
                             <div className="text-xs font-medium mt-1 uppercase opacity-70">Я должен</div>
                         </div>
                     </Card>

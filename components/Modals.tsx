@@ -126,11 +126,12 @@ interface ConfirmationModalProps {
     onClose: () => void;
     onConfirm: () => void;
     title: string;
-    message: string;
+    text: string;
+    confirmText?: string;
     isDanger?: boolean;
 }
 
-export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, message, isDanger = false }) => {
+export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, onClose, onConfirm, title, text, confirmText = "Подтвердить", isDanger = false }) => {
     if (!isOpen) return null;
 
     return (
@@ -141,7 +142,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, on
                     <h3 className="font-bold uppercase text-lg">{title}</h3>
                 </div>
                 <div className="p-6">
-                    <p className="font-medium text-sm leading-relaxed">{message}</p>
+                    <p className="font-medium text-sm leading-relaxed">{text}</p>
                 </div>
                 <div className="p-4 border-t-2 border-retro-border bg-white flex gap-3">
                     <button 
@@ -154,7 +155,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, on
                         onClick={() => { onConfirm(); onClose(); }}
                         className={`flex-1 py-2 font-bold border-2 border-retro-border uppercase text-white shadow-retro-sm active:translate-y-[2px] active:shadow-none transition-all text-sm ${isDanger ? 'bg-retro-action' : 'bg-accent-orange'}`}
                     >
-                        Подтвердить
+                        {confirmText}
                     </button>
                 </div>
             </div>
