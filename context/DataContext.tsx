@@ -110,6 +110,52 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }));
     };
 
+    const updateTransaction = (id: string, updates: Partial<Transaction>) => {
+        setData(prev => ({
+            ...prev,
+            transactions: prev.transactions.map(t => t.id === id ? { ...t, ...updates } : t)
+        }));
+    };
+
+    const deleteTransaction = (id: string) => {
+        setData(prev => ({
+            ...prev,
+            transactions: prev.transactions.filter(t => t.id !== id)
+        }));
+    };
+
+    const addDebt = (d: Omit<Debt, 'id'>) => {
+        const newDebt = { ...d, id: Date.now().toString() };
+        setData(prev => ({ ...prev, debts: [newDebt, ...prev.debts] }));
+    };
+
+    const updateDebt = (id: string, updates: Partial<Debt>) => {
+        setData(prev => ({
+            ...prev,
+            debts: prev.debts.map(d => d.id === id ? { ...d, ...updates } : d)
+        }));
+    };
+
+    const deleteDebt = (id: string) => {
+        setData(prev => ({ ...prev, debts: prev.debts.filter(d => d.id !== id) }));
+    };
+
+    const addInvestment = (i: Omit<Investment, 'id'>) => {
+        const newInvestment = { ...i, id: Date.now().toString() };
+        setData(prev => ({ ...prev, investments: [newInvestment, ...prev.investments] }));
+    };
+
+    const updateInvestment = (id: string, updates: Partial<Investment>) => {
+        setData(prev => ({
+            ...prev,
+            investments: prev.investments.map(i => i.id === id ? { ...i, ...updates } : i)
+        }));
+    };
+
+    const deleteInvestment = (id: string) => {
+        setData(prev => ({ ...prev, investments: prev.investments.filter(i => i.id !== id) }));
+    };
+
     const updateSettings = (newSettings: Partial<AppSettings>) => {
         setData(prev => ({
             ...prev,
@@ -163,12 +209,20 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     return (
-        <DataContext.Provider value={{ 
-            ...data, 
-            isWelcomeScreen, 
-            addTransaction, 
-            resetToMock, 
-            startFresh, 
+        <DataContext.Provider value={{
+            ...data,
+            isWelcomeScreen,
+            addTransaction,
+            updateTransaction,
+            deleteTransaction,
+            addDebt,
+            updateDebt,
+            deleteDebt,
+            addInvestment,
+            updateInvestment,
+            deleteInvestment,
+            resetToMock,
+            startFresh,
             clearAllData,
             updateSettings,
             addCategory,

@@ -10,12 +10,19 @@ export const Budget: React.FC = () => {
     const totalRemaining = totalAllocated - totalSpent;
     const totalPercent = totalAllocated > 0 ? (totalSpent / totalAllocated) * 100 : 0;
 
+    const now = new Date();
+    const monthName = now.toLocaleString('ru-RU', { month: 'long' });
+    const capitalMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+    const year = now.getFullYear();
+    const daysInMonth = new Date(year, now.getMonth() + 1, 0).getDate();
+    const daysLeft = daysInMonth - now.getDate();
+
     return (
         <div className="flex flex-col gap-6 md:gap-8 pb-12">
             <Card className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">Бюджет на Декабрь 2025</h2>
-                    <p className="text-sm font-bold uppercase tracking-wider mt-1 text-gray-600">{budget.length} категорий • Осталось дней: 28</p>
+                    <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">Бюджет на {capitalMonth} {year}</h2>
+                    <p className="text-sm font-bold uppercase tracking-wider mt-1 text-gray-600">{budget.length} категорий • Осталось дней: {daysLeft}</p>
                 </div>
                 <Button variant="primary" icon="add">Добавить категорию</Button>
             </Card>
