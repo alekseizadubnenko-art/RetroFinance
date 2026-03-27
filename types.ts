@@ -63,6 +63,14 @@ export interface AppData {
 export interface DataContextType extends AppData {
     isWelcomeScreen: boolean;
     addTransaction: (t: Omit<Transaction, 'id'>) => void;
+    updateTransaction: (id: string, updates: Partial<Transaction>) => void;
+    deleteTransaction: (id: string) => void;
+    addDebt: (d: Omit<Debt, 'id'>) => void;
+    updateDebt: (id: string, updates: Partial<Debt>) => void;
+    deleteDebt: (id: string) => void;
+    addInvestment: (i: Omit<Investment, 'id'>) => void;
+    updateInvestment: (id: string, updates: Partial<Investment>) => void;
+    deleteInvestment: (id: string) => void;
     resetToMock: () => void;
     startFresh: () => void;
     clearAllData: () => void;
